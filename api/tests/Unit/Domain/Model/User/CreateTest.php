@@ -9,6 +9,7 @@ use Domain\Model\User\Email;
 use Domain\Model\User\Id;
 use Domain\Model\User\Login;
 use Domain\Model\User\Name;
+use Domain\Model\User\Password;
 use Domain\Model\User\User;
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +30,8 @@ class CreateTest extends TestCase
             ),
             $login = new Login('User login'),
             $email = new Email($value = 'test@app.test'),
-            $age = new Age(20)
+            $age = new Age(20),
+            $password = new Password('secret')
         );
 
         $this->assertInstanceOf(User::class, $user);
@@ -40,5 +42,6 @@ class CreateTest extends TestCase
         $this->assertSame($lastName, $user->getName()->getLastName());
         $this->assertSame($login, $user->getLogin());
         $this->assertSame($age, $user->getAge());
+        $this->assertSame($password, $user->getPassword());
     }
 }

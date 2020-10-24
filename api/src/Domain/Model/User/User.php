@@ -11,6 +11,7 @@ final class User
     private Login $login;
     private Email $email;
     private Age $age;
+    private Password $password;
 
     /**
      * User constructor.
@@ -19,20 +20,33 @@ final class User
      * @param Login $login
      * @param Email $email
      * @param Age $age
+     * @param Password $password
      */
-    public function __construct(Id $id, Name $name, Login $login, Email $email, Age $age)
+    public function __construct(Id $id, Name $name, Login $login, Email $email, Age $age, Password $password)
     {
         $this->id = $id;
         $this->name = $name;
         $this->login = $login;
         $this->email = $email;
         $this->age = $age;
+        $this->password = $password;
     }
 
-    public static function signUpByEmail(Id $id, Name $name, Login $login, Email $email, Age $age): self
-    {
+    public static function signUpByEmail(
+        Id $id,
+        Name $name,
+        Login $login,
+        Email $email,
+        Age $age,
+        Password $password
+    ): self {
         return new self(
-            $id, $name, $login, $email, $age
+            $id,
+            $name,
+            $login,
+            $email,
+            $age,
+            $password
         );
     }
 
@@ -74,5 +88,13 @@ final class User
     public function getAge(): Age
     {
         return $this->age;
+    }
+
+    /**
+     * @return Password
+     */
+    public function getPassword(): Password
+    {
+        return $this->password;
     }
 }
