@@ -17,6 +17,7 @@ final class Email
     public function __construct(string $value)
     {
         Assert::email($value, 'User email must be in email format.');
+        Assert::lengthBetween($value, 4, 32, 'User email must be between 4 and 32 chars length');
         $this->value = $value;
     }
 

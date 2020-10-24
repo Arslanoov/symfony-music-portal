@@ -30,4 +30,12 @@ class EmailTest extends TestCase
 
         new Email('not an email');
     }
+
+    public function testTooLong(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('User email must be between 4 and 32 chars length');
+
+        new Email('longlonglonglonglonglonglonglong@long.long');
+    }
 }

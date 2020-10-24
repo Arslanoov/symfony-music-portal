@@ -5,20 +5,59 @@ declare(strict_types=1);
 namespace Domain\Model\User;
 
 use DateTimeImmutable;
+use Doctrine\ORM\Mapping as ORM;
 use Domain\Model\AggregateRoot;
 use Domain\Model\EventsTrait;
 use Domain\Model\User\Event\UserSignedUp;
 
-final class User implements AggregateRoot
+/**
+ * Class User
+ * @package Domain\Model\User
+ * @ORM\Entity()
+ * @ORM\Table(name="user_users", uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"login"}),
+ *     @ORM\UniqueConstraint(columns={"email"})
+ * })
+ */
+class User implements AggregateRoot
 {
     use EventsTrait;
 
+    /**
+     * @var Id
+     * @ORM\Id()
+     * @ORM\Column(type="user_user_id", name="id")
+     */
     private Id $id;
+    /**
+     * @var DateTimeImmutable
+     * @ORM\Column(type="datetime_immutable", name="created_at")
+     */
     private DateTimeImmutable $createdAt;
+    /**
+     * @var Name
+     * @ORM\Embedded(columnPrefix="name_", class="Domain\Model\User\Name")
+     */
     private Name $name;
+    /**
+     * @var Login
+     * @ORM\Column(type="user_user_login", length=16)
+     */
     private Login $login;
+    /**
+     * @var Email
+     * @ORM\Column(type="user_user_email", length=32)
+     */
     private Email $email;
+    /**
+     * @var Age
+     * @ORM\Column(type="user_user_age")
+     */
     private Age $age;
+    /**
+     * @var Password
+     * @ORM\Column(type="user_user_password", length=128)
+     */
     private Password $password;
 
     /**

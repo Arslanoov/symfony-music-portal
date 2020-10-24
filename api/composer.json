@@ -5,7 +5,11 @@
         "php": ">=7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "composer/package-versions-deprecated": "^1.11",
         "doctrine/annotations": "^1.11",
+        "doctrine/doctrine-bundle": "^2.1",
+        "doctrine/doctrine-migrations-bundle": "^3.0",
+        "doctrine/orm": "^2.7",
         "psr/log": "^1.1",
         "ramsey/uuid": "^4.1",
         "symfony/console": "5.1.*",
@@ -20,6 +24,7 @@
     "require-dev": {
         "symfony/browser-kit": "^5.1",
         "symfony/css-selector": "^5.1",
+        "symfony/maker-bundle": "^1.22",
         "symfony/phpunit-bridge": "^5.1"
     },
     "config": {

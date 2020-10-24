@@ -43,6 +43,7 @@ final class Command
      * @var string
      * @Assert\NotBlank()
      * @Assert\Email()
+     * @Assert\Length(min="4", max="32")
      */
     public string $email;
     /**

@@ -4,8 +4,14 @@ declare(strict_types=1);
 
 namespace Domain\Model\User;
 
+use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
+/**
+ * Class Age
+ * @package Domain\Model\User
+ * @ORM\Embeddable()
+ */
 final class Age
 {
     private int $value;
