@@ -1,0 +1,28 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Http\:
+        resource: '../src/Http'
+
+    Infrastructure\:
+        resource: '../src/Infrastructure'
+
+    Domain\:
+        resource: '../src/Domain'
+
+    Api\Action\:
+        resource: '../src/Api/Action/'
+        tags: ['controller.service_arguments']
+
+    Http\Response\ResponseFactory:
+        class: Infrastructure\Http\Response\SymfonyHttpResponseFactory
+
+    Domain\Model\User\Service\PasswordHasher:
+        class: Infrastructure\Domain\Model\User\Service\Argon2idPasswordHasher
+
+    Domain\Model\User\Service\PasswordValidator:
+        class: Infrastructure\Domain\Model\User\Service\CorePasswordValidator
