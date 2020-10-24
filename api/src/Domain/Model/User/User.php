@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Model\User;
 
+use DateTimeImmutable;
 use Domain\Model\AggregateRoot;
 use Domain\Model\EventsTrait;
 use Domain\Model\User\Event\UserSignedUp;
@@ -12,9 +13,8 @@ final class User implements AggregateRoot
 {
     use EventsTrait;
 
-    // TODO: add created at field
-
     private Id $id;
+    private DateTimeImmutable $createdAt;
     private Name $name;
     private Login $login;
     private Email $email;
@@ -24,15 +24,24 @@ final class User implements AggregateRoot
     /**
      * User constructor.
      * @param Id $id
+     * @param DateTimeImmutable $date
      * @param Name $name
      * @param Login $login
      * @param Email $email
      * @param Age $age
      * @param Password $password
      */
-    public function __construct(Id $id, Name $name, Login $login, Email $email, Age $age, Password $password)
-    {
+    public function __construct(
+        Id $id,
+        DateTimeImmutable $date,
+        Name $name,
+        Login $login,
+        Email $email,
+        Age $age,
+        Password $password
+    ) {
         $this->id = $id;
+        $this->createdAt = $date;
         $this->name = $name;
         $this->login = $login;
         $this->email = $email;
@@ -56,6 +65,7 @@ final class User implements AggregateRoot
     ): self {
         return new self(
             $id,
+            new DateTimeImmutable(),
             $name,
             $login,
             $email,
@@ -70,6 +80,14 @@ final class User implements AggregateRoot
     public function getId(): Id
     {
         return $this->id;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getCreatedAtDate(): DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 
     /**

@@ -11,6 +11,9 @@ services:
     Infrastructure\:
         resource: '../src/Infrastructure'
 
+    Domain\:
+        resource: '../src/Domain'
+
     Api\Action\:
         resource: '../src/Api/Action/'
         tags: ['controller.service_arguments']

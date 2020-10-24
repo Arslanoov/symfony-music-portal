@@ -29,8 +29,13 @@ final class Request
      * @param Handler $handler
      * @param ResponseFactory $response
      */
-    public function __construct(ValidatorInterface $validator, SerializerInterface $serializer, LoggerInterface $logger, Handler $handler, ResponseFactory $response)
-    {
+    public function __construct(
+        ValidatorInterface $validator,
+        SerializerInterface $serializer,
+        LoggerInterface $logger,
+        Handler $handler,
+        ResponseFactory $response
+    ) {
         $this->validator = $validator;
         $this->serializer = $serializer;
         $this->logger = $logger;

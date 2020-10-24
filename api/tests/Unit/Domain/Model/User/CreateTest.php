@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Test\Unit\Domain\Model\User;
 
+use DateTimeImmutable;
 use Domain\Model\User\Age;
 use Domain\Model\User\Email;
 use Domain\Model\User\Id;
@@ -36,6 +37,8 @@ class CreateTest extends TestCase
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertSame($id->getValue(), $user->getId()->getValue());
+        $this->assertNotEmpty($user->getCreatedAtDate());
+        $this->assertInstanceOf(DateTimeImmutable::class, $user->getCreatedAtDate());
         $this->assertSame($email->getValue(), $user->getEmail()->getValue());
         $this->assertSame($name, $user->getName());
         $this->assertSame($firstName, $user->getName()->getFirstName());
