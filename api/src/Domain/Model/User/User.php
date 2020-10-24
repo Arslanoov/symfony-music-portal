@@ -7,14 +7,24 @@ namespace App\Domain\Model\User;
 final class User
 {
     private Id $id;
+    private Email $email;
 
     /**
      * User constructor.
      * @param Id $id
+     * @param Email $email
      */
-    public function __construct(Id $id)
+    private function __construct(Id $id, Email $email)
     {
         $this->id = $id;
+        $this->email = $email;
+    }
+
+    public static function signUpByEmail(Id $id, Email $email): self
+    {
+        return new self(
+            $id, $email
+        );
     }
 
     /**
@@ -23,5 +33,13 @@ final class User
     public function getId(): Id
     {
         return $this->id;
+    }
+
+    /**
+     * @return Email
+     */
+    public function getEmail(): Email
+    {
+        return $this->email;
     }
 }
