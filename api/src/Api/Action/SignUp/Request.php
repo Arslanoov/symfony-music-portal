@@ -9,6 +9,7 @@ use Domain\Model\User\UseCase\SignUp\Request\Handler;
 use DomainException;
 use Http\Response\ResponseFactory;
 use Psr\Log\LoggerInterface;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
@@ -46,9 +47,10 @@ final class Request
     public function __invoke(HttpRequest $request)
     {
         $body = json_decode($request);
+        $id = Uuid::uuid4()->toString();
 
         $signUpCommand = new Command(
-            $id = $body['id'] ?? '',
+            $id,
             $firstName = $body['first_name'] ?? '',
             $lastName = $body['last_name'] ?? '',
             $login = $body['login'] ?? '',
