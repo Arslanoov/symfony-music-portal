@@ -10,6 +10,7 @@ final class User
     private Name $name;
     private Login $login;
     private Email $email;
+    private Age $age;
 
     /**
      * User constructor.
@@ -17,19 +18,21 @@ final class User
      * @param Name $name
      * @param Login $login
      * @param Email $email
+     * @param Age $age
      */
-    public function __construct(Id $id, Name $name, Login $login, Email $email)
+    public function __construct(Id $id, Name $name, Login $login, Email $email, Age $age)
     {
         $this->id = $id;
         $this->name = $name;
         $this->login = $login;
         $this->email = $email;
+        $this->age = $age;
     }
 
-    public static function signUpByEmail(Id $id, Name $name, Login $login, Email $email): self
+    public static function signUpByEmail(Id $id, Name $name, Login $login, Email $email, Age $age): self
     {
         return new self(
-            $id, $name, $login, $email
+            $id, $name, $login, $email, $age
         );
     }
 
@@ -63,5 +66,13 @@ final class User
     public function getEmail(): Email
     {
         return $this->email;
+    }
+
+    /**
+     * @return Age
+     */
+    public function getAge(): Age
+    {
+        return $this->age;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Test\Unit\Domain\Model\User;
 
+use Domain\Model\User\Age;
 use Domain\Model\User\Email;
 use Domain\Model\User\Id;
 use Domain\Model\User\Login;
@@ -11,6 +12,11 @@ use Domain\Model\User\Name;
 use Domain\Model\User\User;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class CreateTest
+ * @package Test\Unit\Domain\Model\User
+ * @covers \Domain\Model\User\User
+ */
 class CreateTest extends TestCase
 {
     public function testSuccess(): void
@@ -22,7 +28,8 @@ class CreateTest extends TestCase
                 $lastName = 'Pupkin'
             ),
             $login = new Login('User login'),
-            $email = new Email($value = 'test@app.test')
+            $email = new Email($value = 'test@app.test'),
+            $age = new Age(20)
         );
 
         $this->assertInstanceOf(User::class, $user);
@@ -32,5 +39,6 @@ class CreateTest extends TestCase
         $this->assertSame($firstName, $user->getName()->getFirstName());
         $this->assertSame($lastName, $user->getName()->getLastName());
         $this->assertSame($login, $user->getLogin());
+        $this->assertSame($age, $user->getAge());
     }
 }

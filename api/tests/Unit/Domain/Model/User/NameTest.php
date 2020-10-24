@@ -8,6 +8,11 @@ use Domain\Model\User\Name;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class NameTest
+ * @package Test\Unit\Domain\Model\User
+ * @covers \Domain\Model\User\Name
+ */
 class NameTest extends TestCase
 {
     public function testSuccess(): void
