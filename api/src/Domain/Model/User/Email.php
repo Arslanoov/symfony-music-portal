@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Model\User;
+namespace Domain\Model\User;
 
 use Webmozart\Assert\Assert;
 

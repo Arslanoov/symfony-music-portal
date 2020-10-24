@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Test\Unit\Domain\Model\User;
 
-use App\Domain\Model\User\Id;
+use Domain\Model\User\Id;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * Class IdTest
  * @package Test\Unit\Domain\Model\User
- * @covers \App\Domain\Model\User\Id
+ * @covers \Domain\Model\User\Id
  */
 class IdTest extends TestCase
 {

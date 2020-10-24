@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Test\Unit\Domain\Model\User;
 
-use App\Domain\Model\User\Email;
+use Domain\Model\User\Email;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class EmailTest
  * @package Test\Unit\Domain\Model\User
- * @covers \App\Domain\Model\User\Email
+ * @covers \Domain\Model\User\Email
  */
 class EmailTest extends TestCase
 {
@@ -19,7 +19,7 @@ class EmailTest extends TestCase
     {
         $email = new Email($value = 'app@test.app');
 
-        $this->assertEquals($value, $email->getValue());
+        $this->assertSame($value, $email->getValue());
         $this->assertTrue($email->isEqualTo($email));
     }
 
