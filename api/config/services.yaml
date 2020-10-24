@@ -17,3 +17,9 @@ services:
 
     Http\Response\ResponseFactory:
         class: Infrastructure\Http\Response\SymfonyHttpResponseFactory
+
+    Domain\Model\User\Service\PasswordHasher:
+        class: Infrastructure\Domain\Model\User\Service\Argon2idPasswordHasher
+
+    Domain\Model\User\Service\PasswordValidator:
+        class: Infrastructure\Domain\Model\User\Service\CorePasswordValidator

@@ -4,8 +4,16 @@ declare(strict_types=1);
 
 namespace Domain\Model\User;
 
-final class User
+use Domain\Model\AggregateRoot;
+use Domain\Model\EventsTrait;
+use Domain\Model\User\Event\UserSignedUp;
+
+final class User implements AggregateRoot
 {
+    use EventsTrait;
+
+    // TODO: add created at field
+
     private Id $id;
     private Name $name;
     private Login $login;
@@ -30,6 +38,12 @@ final class User
         $this->email = $email;
         $this->age = $age;
         $this->password = $password;
+
+        $this->recordEvent(new UserSignedUp(
+            $id->getValue(),
+            $login->getValue(),
+            $email->getValue()
+        ));
     }
 
     public static function signUpByEmail(
