@@ -18,9 +18,9 @@ final class Name
      */
     public function __construct(string $firstName, string $lastName)
     {
-        Assert::lengthBetween($firstName, 2, 32, 'User first name must be between 2 and 32 chars length');
+        Assert::lengthBetween($firstName, 2, 32, 'User first name must be between 2 and 32 chars length.');
         $this->firstName = $firstName;
-        Assert::lengthBetween($lastName, 2, 32, 'User last name must be between 2 and 32 chars length');
+        Assert::lengthBetween($lastName, 2, 32, 'User last name must be between 2 and 32 chars length.');
         $this->lastName = $lastName;
     }
 

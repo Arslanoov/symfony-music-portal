@@ -26,7 +26,7 @@ class NameTest extends TestCase
     public function testTooShortFirstName(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('User first name must be between 2 and 32 chars length');
+        $this->expectExceptionMessage('User first name must be between 2 and 32 chars length.');
 
         new Name(
             $firstName = 'V',
@@ -37,7 +37,7 @@ class NameTest extends TestCase
     public function testTooLongFirstName(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('User first name must be between 2 and 32 chars length');
+        $this->expectExceptionMessage('User first name must be between 2 and 32 chars length.');
 
         new Name(
             $firstName = 'VasyaVasyaVasyaVasyaVasyaVasyaVasya',
@@ -48,7 +48,7 @@ class NameTest extends TestCase
     public function testTooShortLastName(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('User last name must be between 2 and 32 chars length');
+        $this->expectExceptionMessage('User last name must be between 2 and 32 chars length.');
 
         new Name(
             $firstName = 'Vasya',
@@ -59,7 +59,7 @@ class NameTest extends TestCase
     public function testTooLongLastName(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('User last name must be between 2 and 32 chars length');
+        $this->expectExceptionMessage('User last name must be between 2 and 32 chars length.');
 
         new Name(
             $firstName = 'Vasya',
