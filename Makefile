@@ -1,5 +1,6 @@
 start: clean build up
 test: test-unit test-functional
+clear-cache: api-clear-cache
 
 test-unit: api-unit-tests-run
 test-functional: api-load-fixtures api-functional-tests-run
@@ -34,3 +35,12 @@ api-unit-tests-run:
 
 api-functional-tests-run:
 	docker-compose run --rm api-php-cli php bin/phpunit --testsuite=Functional
+
+api-generate-oauth-keys:
+	docker-compose run --rm api-php-cli mkdir -p var/oauth
+	docker-compose run --rm api-php-cli openssl genrsa -out var/oauth/private.key 2048
+	docker-compose run --rm api-php-cli openssl rsa -in var/oauth/private.key -pubout -out var/oauth/public.key
+	docker-compose run --rm api-php-cli chmod 644 var/oauth/private.key var/oauth/public.key
+
+api-clear-cache:
+	docker-compose run --rm api-php-cli php bin/console cache:clear

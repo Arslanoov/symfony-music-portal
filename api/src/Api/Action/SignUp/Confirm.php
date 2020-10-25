@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Api\Action\SignUp;
 
 use Domain\Model\DomainException;
-use Domain\Model\User\Exception\UserNotFound;
 use Domain\Model\User\UseCase\SignUp\Confirm\Command;
 use Domain\Model\User\UseCase\SignUp\Confirm\Handler;
 use Http\Response\ResponseFactory;

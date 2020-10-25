@@ -24,7 +24,7 @@ class RequestTest extends FunctionalTestCase
         $response = $this->client->getResponse();
 
         $this->assertSame(201, $response->getStatusCode());
-        $this->assertEquals([
+        $this->assertSame([
             'email' => $email
         ], json_decode($response->getContent(), true));
     }
@@ -74,7 +74,7 @@ class RequestTest extends FunctionalTestCase
 
         $response = $this->client->getResponse();
 
-        $this->assertEquals([
+        $this->assertSame([
             'message' => 'User with this login already exists.',
         ], json_decode($response->getContent(), true));
     }
@@ -94,7 +94,7 @@ class RequestTest extends FunctionalTestCase
 
         $response = $this->client->getResponse();
 
-        $this->assertEquals([
+        $this->assertSame([
             'message' => 'User with this email already exists.',
         ], json_decode($response->getContent(), true));
     }

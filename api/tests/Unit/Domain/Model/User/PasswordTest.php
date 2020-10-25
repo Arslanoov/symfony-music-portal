@@ -18,6 +18,6 @@ class PasswordTest extends TestCase
     {
         $password = new Password($value = 'value');
 
-        $this->assertEquals($value, $password->getValue());
+        $this->assertSame($value, $password->getValue());
     }
 }

@@ -30,7 +30,7 @@ class ConfirmTest extends FunctionalTestCase
         $response = $this->client->getResponse();
 
         $this->assertSame(419, $response->getStatusCode());
-        $this->assertEquals([
+        $this->assertSame([
             'message' => 'Incorrect token.'
         ], json_decode($response->getContent(), true));
     }
@@ -44,7 +44,7 @@ class ConfirmTest extends FunctionalTestCase
         $response = $this->client->getResponse();
 
         $this->assertSame(419, $response->getStatusCode());
-        $this->assertEquals([
+        $this->assertSame([
             'message' => 'Token is expired.'
         ], json_decode($response->getContent(), true));
     }

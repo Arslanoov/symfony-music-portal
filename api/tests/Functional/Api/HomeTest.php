@@ -15,7 +15,7 @@ class HomeTest extends FunctionalTestCase
         $response = $this->client->getResponse();
 
         $this->assertSame(200, $response->getStatusCode());
-        $this->assertEquals([
+        $this->assertSame([
             'version' => '1.0'
         ], json_decode($response->getContent(), true));
     }
