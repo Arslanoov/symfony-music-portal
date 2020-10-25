@@ -6,6 +6,7 @@ namespace Test\Unit\Domain\Model\User;
 
 use DateTimeImmutable;
 use Domain\Model\User\Age;
+use Domain\Model\User\ConfirmToken;
 use Domain\Model\User\Email;
 use Domain\Model\User\Id;
 use Domain\Model\User\Login;
@@ -32,7 +33,8 @@ class CreateTest extends TestCase
             $login = new Login('User login'),
             $email = new Email($value = 'test@app.test'),
             $age = new Age(20),
-            $password = new Password('secret')
+            $password = new Password('secret'),
+            $token = new ConfirmToken('token', new DateTimeImmutable())
         );
 
         $this->assertInstanceOf(User::class, $user);
@@ -46,5 +48,6 @@ class CreateTest extends TestCase
         $this->assertSame($login, $user->getLogin());
         $this->assertSame($age, $user->getAge());
         $this->assertSame($password, $user->getPassword());
+        $this->assertNotNull($user->getSignUpConfirmToken());
     }
 }

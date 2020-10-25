@@ -24,6 +24,7 @@ class IdTest extends TestCase
         $this->assertNotEmpty($id->getValue());
 
         $this->assertTrue($id->isEqualTo($id));
+        $this->assertSame($id->getValue(), (string) $id);
     }
 
     public function testAsUuid4Success(): void

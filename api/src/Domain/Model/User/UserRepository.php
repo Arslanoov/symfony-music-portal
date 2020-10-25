@@ -26,5 +26,7 @@ interface UserRepository
      */
     public function getByEmail(Email $email): User;
 
+    public function findBySignUpConfirmToken(ConfirmToken $confirmToken): ?User;
+
     public function add(User $user): void;
 }

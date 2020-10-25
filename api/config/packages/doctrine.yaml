@@ -10,6 +10,7 @@ doctrine:
             user_user_email: 'Infrastructure\Doctrine\Types\User\EmailType'
             user_user_age: 'Infrastructure\Doctrine\Types\User\AgeType'
             user_user_password: 'Infrastructure\Doctrine\Types\User\PasswordType'
+            user_user_status: 'Infrastructure\Doctrine\Types\User\StatusType'
         default_table_options:
             charset: utf8
             collate: -
