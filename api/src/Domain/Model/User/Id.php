@@ -38,4 +38,9 @@ final class Id
     {
         return $id->getValue() === $this->getValue();
     }
+
+    public function __toString(): string
+    {
+        return $this->getValue();
+    }
 }

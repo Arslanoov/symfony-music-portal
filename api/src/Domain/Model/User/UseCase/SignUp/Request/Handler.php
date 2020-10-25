@@ -23,6 +23,19 @@ final class Handler
     private PasswordHasher $hasher;
     private Flusher $flusher;
 
+    /**
+     * Handler constructor.
+     * @param UserRepository $users
+     * @param PasswordHasher $hasher
+     * @param Flusher $flusher
+     */
+    public function __construct(UserRepository $users, PasswordHasher $hasher, Flusher $flusher)
+    {
+        $this->users = $users;
+        $this->hasher = $hasher;
+        $this->flusher = $flusher;
+    }
+
     public function handle(Command $command): void
     {
         if ($this->users->findByLogin($login = new Login($command->login))) {

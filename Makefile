@@ -21,4 +21,4 @@ migrate:
 	docker-compose run --rm api-php-cli php bin/console do:mi:mi
 
 api-tests-run:
-	phpunit
+	docker-compose run --rm api-php-cli php bin/phpunit

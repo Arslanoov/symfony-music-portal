@@ -21,8 +21,25 @@ services:
     Http\Response\ResponseFactory:
         class: Infrastructure\Http\Response\SymfonyHttpResponseFactory
 
+    Test\Functional\:
+        resource: '../tests/Functional/**/*Fixture.php'
+        tags: [ 'doctrine.fixture.orm' ]
+
+    ## Domain
+
+    Domain\Model\Flusher:
+        class: Infrastructure\Domain\Model\DoctrineFlusher
+
+    ### Service
+
     Domain\Model\User\Service\PasswordHasher:
         class: Infrastructure\Domain\Model\User\Service\Argon2idPasswordHasher
 
     Domain\Model\User\Service\PasswordValidator:
         class: Infrastructure\Domain\Model\User\Service\CorePasswordValidator
+
+    ### Repository
+
+    Domain\Model\User\UserRepository:
+        class: Infrastructure\Domain\Model\User\DoctrineUserRepository
+

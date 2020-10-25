@@ -10,10 +10,16 @@ use DomainException;
 use Http\Response\ResponseFactory;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
+/**
+ * Class Request
+ * @package Api\Action\SignUp
+ * @Route("/api/sign-up", name="api.sign-up", methods={"POST"})
+ */
 final class Request
 {
     private ValidatorInterface $validator;
@@ -46,7 +52,7 @@ final class Request
 
     public function __invoke(HttpRequest $request)
     {
-        $body = json_decode($request);
+        $body = json_decode($request->getContent(), true);
         $id = Uuid::uuid4()->toString();
 
         $signUpCommand = new Command(
