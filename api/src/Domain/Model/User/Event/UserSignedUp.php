@@ -20,6 +20,8 @@ final class UserSignedUp
      */
     public function __construct(string $id, string $login, string $email, string $token)
     {
+        // TODO: add email
+
         $this->id = $id;
         $this->login = $login;
         $this->email = $email;

@@ -8,10 +8,10 @@ use Webmozart\Assert\Assert;
 
 final class Status
 {
-    private const STATUS_DRAFT = 'Draft';
-    private const STATUS_ACTIVE = 'Active';
+    public const STATUS_DRAFT = 'Draft';
+    public const STATUS_ACTIVE = 'Active';
 
-    private const STATUS_LIST = [
+    public const STATUS_LIST = [
         self::STATUS_DRAFT,
         self::STATUS_ACTIVE
     ];

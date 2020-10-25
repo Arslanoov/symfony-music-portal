@@ -16,6 +16,8 @@ final class UserConfirmed
      */
     public function __construct(string $login, string $email)
     {
+        // TODO: add email
+
         $this->login = $login;
         $this->email = $email;
     }
