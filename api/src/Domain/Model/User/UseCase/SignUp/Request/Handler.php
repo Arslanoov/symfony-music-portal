@@ -14,6 +14,7 @@ use Domain\Model\User\Login;
 use Domain\Model\User\Name;
 use Domain\Model\User\Password;
 use Domain\Model\User\Service\PasswordHasher;
+use Domain\Model\User\Service\Tokenizer;
 use Domain\Model\User\User;
 use Domain\Model\User\UserRepository;
 
@@ -21,18 +22,21 @@ final class Handler
 {
     private UserRepository $users;
     private PasswordHasher $hasher;
+    private Tokenizer $tokenizer;
     private Flusher $flusher;
 
     /**
      * Handler constructor.
      * @param UserRepository $users
      * @param PasswordHasher $hasher
+     * @param Tokenizer $tokenizer
      * @param Flusher $flusher
      */
-    public function __construct(UserRepository $users, PasswordHasher $hasher, Flusher $flusher)
+    public function __construct(UserRepository $users, PasswordHasher $hasher, Tokenizer $tokenizer, Flusher $flusher)
     {
         $this->users = $users;
         $this->hasher = $hasher;
+        $this->tokenizer = $tokenizer;
         $this->flusher = $flusher;
     }
 
@@ -56,7 +60,8 @@ final class Handler
             new Age($command->age),
             new Password(
                 $this->hasher->hash($command->password)
-            )
+            ),
+            $this->tokenizer->generate()
         );
 
         $this->users->add($user);

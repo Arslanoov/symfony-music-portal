@@ -38,6 +38,10 @@ services:
     Domain\Model\User\Service\PasswordValidator:
         class: Infrastructure\Domain\Model\User\Service\CorePasswordValidator
 
+    Domain\Model\User\Service\Tokenizer:
+        class: Infrastructure\Domain\Model\User\Service\UuidTokenGenerator
+        arguments: ['PT1H']
+
     ### Repository
 
     Domain\Model\User\UserRepository:

@@ -6,8 +6,9 @@ namespace Infrastructure\Domain\Model\User;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Domain\Model\User\ConfirmToken;
 use Domain\Model\User\Email;
-use Domain\Model\User\Exception\UserNotFoundException;
+use Domain\Model\User\Exception\UserNotFound;
 use Domain\Model\User\Login;
 use Domain\Model\User\User;
 use Domain\Model\User\UserRepository;
@@ -40,7 +41,7 @@ final class DoctrineUserRepository implements UserRepository
     public function getByLogin(Login $login): User
     {
         if (!$user = $this->findByLogin($login)) {
-            throw new UserNotFoundException();
+            throw new UserNotFound();
         }
 
         return $user;
@@ -59,8 +60,18 @@ final class DoctrineUserRepository implements UserRepository
     public function getByEmail(Email $email): User
     {
         if (!$user = $this->findByEmail($email)) {
-            throw new UserNotFoundException();
+            throw new UserNotFound();
         }
+
+        return $user;
+    }
+
+    public function findBySignUpConfirmToken(ConfirmToken $confirmToken): ?User
+    {
+        /** @var User|null $user */
+        $user = $this->repository->findOneBy([
+            'signUpConfirmToken.value' => $confirmToken->getToken()
+        ]);
 
         return $user;
     }

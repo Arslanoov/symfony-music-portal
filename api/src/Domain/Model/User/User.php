@@ -8,7 +8,10 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Domain\Model\AggregateRoot;
 use Domain\Model\EventsTrait;
+use Domain\Model\User\Event\UserConfirmed;
 use Domain\Model\User\Event\UserSignedUp;
+use Domain\Model\User\Exception\TokenExpired;
+use Domain\Model\User\Exception\UserAlreadyActivated;
 
 /**
  * Class User
@@ -59,17 +62,17 @@ class User implements AggregateRoot
      * @ORM\Column(type="user_user_password", length=128)
      */
     private Password $password;
-
     /**
-     * User constructor.
-     * @param Id $id
-     * @param DateTimeImmutable $date
-     * @param Name $name
-     * @param Login $login
-     * @param Email $email
-     * @param Age $age
-     * @param Password $password
+     * @var Status
+     * @ORM\Column(type="user_user_status", length=8)
      */
+    private Status $status;
+    /**
+     * @var ConfirmToken|null
+     * @ORM\Embedded(columnPrefix="sign_up_confirm_token_", class="Domain\Model\User\ConfirmToken")
+     */
+    private ?ConfirmToken $signUpConfirmToken;
+
     public function __construct(
         Id $id,
         DateTimeImmutable $date,
@@ -77,7 +80,9 @@ class User implements AggregateRoot
         Login $login,
         Email $email,
         Age $age,
-        Password $password
+        Password $password,
+        Status $status,
+        ?ConfirmToken $signUpConfirmToken = null
     ) {
         $this->id = $id;
         $this->createdAt = $date;
@@ -86,12 +91,8 @@ class User implements AggregateRoot
         $this->email = $email;
         $this->age = $age;
         $this->password = $password;
-
-        $this->recordEvent(new UserSignedUp(
-            $id->getValue(),
-            $login->getValue(),
-            $email->getValue()
-        ));
+        $this->status = $status;
+        $this->signUpConfirmToken = $signUpConfirmToken;
     }
 
     public static function signUpByEmail(
@@ -100,17 +101,63 @@ class User implements AggregateRoot
         Login $login,
         Email $email,
         Age $age,
-        Password $password
+        Password $password,
+        ConfirmToken $signUpConfirmToken
     ): self {
-        return new self(
+        $user = new self(
             $id,
             new DateTimeImmutable(),
             $name,
             $login,
             $email,
             $age,
-            $password
+            $password,
+            Status::draft(),
+            $signUpConfirmToken
         );
+
+        $user->recordEvent(new UserSignedUp(
+            $id->getValue(),
+            $login->getValue(),
+            $email->getValue(),
+            $signUpConfirmToken->getToken()
+        ));
+
+        return $user;
+    }
+
+    public function confirmSignUp(): void
+    {
+        if ($this->isActive()) {
+            throw new UserAlreadyActivated();
+        }
+
+        if ($this->signUpConfirmToken->isExpiredTo(new DateTimeImmutable())) {
+            throw new TokenExpired();
+        }
+
+        $this->activate();
+        $this->signUpConfirmToken = null;
+
+        $this->recordEvent(new UserConfirmed(
+            $this->getLogin()->getValue(),
+            $this->getEmail()->getValue()
+        ));
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status->isActive();
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status->isDraft();
+    }
+
+    private function activate(): void
+    {
+        $this->status = Status::active();
     }
 
     /**
@@ -167,5 +214,13 @@ class User implements AggregateRoot
     public function getPassword(): Password
     {
         return $this->password;
+    }
+
+    /**
+     * @return ConfirmToken|null
+     */
+    public function getSignUpConfirmToken(): ?ConfirmToken
+    {
+        return $this->signUpConfirmToken;
     }
 }

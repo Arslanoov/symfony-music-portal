@@ -5,22 +5,22 @@ declare(strict_types=1);
 namespace Api\Action\SignUp;
 
 use Domain\Model\DomainException;
-use Domain\Model\User\UseCase\SignUp\Request\Command;
-use Domain\Model\User\UseCase\SignUp\Request\Handler;
+use Domain\Model\User\Exception\UserNotFound;
+use Domain\Model\User\UseCase\SignUp\Confirm\Command;
+use Domain\Model\User\UseCase\SignUp\Confirm\Handler;
 use Http\Response\ResponseFactory;
 use Psr\Log\LoggerInterface;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 /**
- * Class Request
+ * Class Confirm
  * @package Api\Action\SignUp
- * @Route("/api/sign-up", name="api.sign-up", methods={"POST"})
+ * @Route("/api/sign-up/confirm/{token}", name="api.sign-up.confirm", methods={"POST"})
  */
-final class Request
+final class Confirm
 {
     private ValidatorInterface $validator;
     private SerializerInterface $serializer;
@@ -29,7 +29,7 @@ final class Request
     private ResponseFactory $response;
 
     /**
-     * Request constructor.
+     * Confirm constructor.
      * @param ValidatorInterface $validator
      * @param SerializerInterface $serializer
      * @param LoggerInterface $logger
@@ -50,29 +50,20 @@ final class Request
         $this->response = $response;
     }
 
-    public function __invoke(HttpRequest $request)
+    public function __invoke(Request $request, string $token)
     {
-        $body = json_decode($request->getContent(), true);
-        $id = Uuid::uuid4()->toString();
+        // TODO: add php linter, code sniffer and psalm
 
-        $signUpCommand = new Command(
-            $id,
-            $firstName = $body['first_name'] ?? '',
-            $lastName = $body['last_name'] ?? '',
-            $login = $body['login'] ?? '',
-            $age = (int) $body['age'] ?? 0,
-            $email = $body['email'] ?? '',
-            $password = $body['password']
-        );
+        $confirmCommand = new Command($token);
 
-        $violations = $this->validator->validate($signUpCommand);
+        $violations = $this->validator->validate($confirmCommand);
         if (count($violations)) {
             $data = $this->serializer->serialize($violations, 'json');
             return $this->response->json(json_decode($data, true), 422);
         }
 
         try {
-            $this->handler->handle($signUpCommand);
+            $this->handler->handle($confirmCommand);
         } catch (DomainException $e) {
             $this->logger->debug($e->getMessage(), ['exception' => $e]);
             return $this->response->json([
@@ -80,8 +71,6 @@ final class Request
             ], $e->getCode());
         }
 
-        return $this->response->json([
-            'email' => $email
-        ], 201);
+        return $this->response->json([], 204);
     }
 }

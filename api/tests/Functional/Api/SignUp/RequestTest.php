@@ -86,7 +86,7 @@ class RequestTest extends FunctionalTestCase
         $this->client->request('POST', self::URI, [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'first_name' => 'Vasya',
             'last_name' => 'Pupkin',
-            'login' => 'someUserLogin',
+            'login' => 'someAnotherLogin',
             'age' => 25,
             'email' => 'user@app.test',
             'password' => 'secret'
