@@ -7,6 +7,7 @@ namespace Domain\Model\User;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Domain\Model\AggregateRoot;
+use Domain\Model\DomainException;
 use Domain\Model\EventsTrait;
 use Domain\Model\User\Event\UserConfirmed;
 use Domain\Model\User\Event\UserSignedUp;
@@ -68,6 +69,11 @@ class User implements AggregateRoot
      */
     private Status $status;
     /**
+     * @var Role
+     * @ORM\Column(type="user_user_role", length=12)
+     */
+    private Role $role;
+    /**
      * @var ConfirmToken|null
      * @ORM\Embedded(columnPrefix="sign_up_confirm_token_", class="Domain\Model\User\ConfirmToken")
      */
@@ -82,6 +88,7 @@ class User implements AggregateRoot
         Age $age,
         Password $password,
         Status $status,
+        Role $role,
         ?ConfirmToken $signUpConfirmToken = null
     ) {
         $this->id = $id;
@@ -92,6 +99,7 @@ class User implements AggregateRoot
         $this->age = $age;
         $this->password = $password;
         $this->status = $status;
+        $this->role = $role;
         $this->signUpConfirmToken = $signUpConfirmToken;
     }
 
@@ -113,6 +121,7 @@ class User implements AggregateRoot
             $age,
             $password,
             Status::draft(),
+            Role::user(),
             $signUpConfirmToken
         );
 
@@ -165,6 +174,34 @@ class User implements AggregateRoot
     private function activate(): void
     {
         $this->status = Status::active();
+    }
+
+    public function assignRole(Role $role): void
+    {
+        if ($this->role->isEqualTo($role)) {
+            throw new DomainException('Role is already assigned.');
+        }
+        $this->role = $role;
+    }
+
+    public function fire(): void
+    {
+        $this->role = Role::user();
+    }
+
+    public function isUser(): bool
+    {
+        return $this->role->isUser();
+    }
+
+    public function isModerator(): bool
+    {
+        return $this->role->isModerator();
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role->isAdmin();
     }
 
     /**

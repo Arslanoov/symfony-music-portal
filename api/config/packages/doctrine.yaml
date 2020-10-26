@@ -11,6 +11,7 @@ doctrine:
             user_user_age: 'Infrastructure\Doctrine\Types\User\AgeType'
             user_user_password: 'Infrastructure\Doctrine\Types\User\PasswordType'
             user_user_status: 'Infrastructure\Doctrine\Types\User\StatusType'
+            user_user_role: 'Infrastructure\Doctrine\Types\User\RoleType'
         default_table_options:
             charset: utf8
             collate: -
