@@ -51,14 +51,14 @@ final class Confirm
 
     public function __invoke(Request $request, string $token)
     {
-        // TODO: add php linter, code sniffer and psalm
-
         $confirmCommand = new Command($token);
 
         $violations = $this->validator->validate($confirmCommand);
         if (count($violations)) {
             $data = $this->serializer->serialize($violations, 'json');
-            return $this->response->json(json_decode($data, true), 422);
+            /** @var array $response */
+            $response = json_decode($data, true);
+            return $this->response->json($response, 422);
         }
 
         try {
@@ -67,7 +67,7 @@ final class Confirm
             $this->logger->debug($e->getMessage(), ['exception' => $e]);
             return $this->response->json([
                 'message' => $e->getMessage()
-            ], $e->getCode());
+            ], (int) $e->getCode());
         }
 
         return $this->response->json([], 204);

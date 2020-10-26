@@ -6,6 +6,7 @@ namespace Api\Security\OAuth\Server;
 
 use Domain\Model\User\Service\PasswordValidator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Trikoder\Bundle\OAuth2Bundle\Event\UserResolveEvent;
 use Trikoder\Bundle\OAuth2Bundle\OAuth2Events;
@@ -30,6 +31,7 @@ final class UserResolver implements EventSubscriberInterface
 
     public function onUserResolve(UserResolveEvent $event): void
     {
+        /** @var UserInterface|null $user */
         $user = $this->userProvider->loadUserByUsername($event->getUsername());
 
         if (null === $user) {
@@ -40,7 +42,11 @@ final class UserResolver implements EventSubscriberInterface
             return;
         }
 
-        if (!$this->validator->validate($event->getPassword(), $user->getPassword())) {
+        /** @var string $password */
+
+        $password = $user->getPassword();
+
+        if (!$this->validator->validate($event->getPassword(), $password)) {
             return;
         }
 

@@ -52,23 +52,27 @@ final class Request
 
     public function __invoke(HttpRequest $request)
     {
-        $body = json_decode($request->getContent(), true);
-        $id = Uuid::uuid4()->toString();
+        /** @var string $content */
+        $content = $request->getContent();
+        /** @var array $body */
+        $body = json_decode($content, true);
 
-        $signUpCommand = new Command(
-            $id,
-            $firstName = $body['first_name'] ?? '',
-            $lastName = $body['last_name'] ?? '',
-            $login = $body['login'] ?? '',
-            $age = (int) $body['age'] ?? 0,
-            $email = $body['email'] ?? '',
-            $password = $body['password']
-        );
+        $id = Uuid::uuid4()->toString();
+        $firstName = (string) ($body['first_name'] ?? '');
+        $lastName = (string) ($body['last_name'] ?? '');
+        $login = (string) ($body['login'] ?? '');
+        $age = (int) ($body['age'] ?? 0);
+        $email = (string) ($body['email'] ?? '');
+        $password = (string) ($body['password'] ?? '');
+
+        $signUpCommand = new Command($id, $firstName, $lastName, $login, $age, $email, $password);
 
         $violations = $this->validator->validate($signUpCommand);
         if (count($violations)) {
             $data = $this->serializer->serialize($violations, 'json');
-            return $this->response->json(json_decode($data, true), 422);
+            /** @var array $response */
+            $response = json_decode($data, true);
+            return $this->response->json($response, 422);
         }
 
         try {
@@ -77,7 +81,7 @@ final class Request
             $this->logger->debug($e->getMessage(), ['exception' => $e]);
             return $this->response->json([
                 'message' => $e->getMessage()
-            ], $e->getCode());
+            ], (int) $e->getCode());
         }
 
         return $this->response->json([

@@ -1,7 +1,10 @@
 start: clean build up
+validate: check test
 test: test-unit test-functional
 clear-cache: api-clear-cache
-check: api-lint api-cs
+check: api-check
+
+api-check: api-lint api-cs api-analyze
 
 test-unit: api-unit-tests-run
 test-functional: api-load-fixtures api-functional-tests-run
@@ -51,3 +54,6 @@ api-lint:
 
 api-cs:
 	docker-compose run --rm api-php-cli composer cs-check
+
+api-analyze:
+	docker-compose run --rm api-php-cli composer psalm

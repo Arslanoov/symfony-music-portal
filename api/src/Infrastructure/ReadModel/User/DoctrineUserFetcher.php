@@ -25,7 +25,9 @@ final class DoctrineUserFetcher implements UserFetcher
     public function __construct(Connection $connection, EntityManagerInterface $em)
     {
         $this->connection = $connection;
-        $this->repository = $em->getRepository(User::class);
+        /** @var EntityRepository $repository */
+        $repository = $em->getRepository(User::class);
+        $this->repository = $repository;
     }
 
     public function findForAuthByEmail(string $email): ?AuthView

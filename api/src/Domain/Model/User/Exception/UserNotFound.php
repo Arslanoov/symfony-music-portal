@@ -9,7 +9,7 @@ use Throwable;
 
 final class UserNotFound extends DomainException
 {
-    public function __construct($message = "User not found.", $code = 404, Throwable $previous = null)
+    public function __construct(string $message = "User not found.", int $code = 404, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

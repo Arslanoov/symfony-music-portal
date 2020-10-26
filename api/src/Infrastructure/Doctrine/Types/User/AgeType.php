@@ -19,7 +19,7 @@ class AgeType extends IntegerType
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return !empty($value) ? new Age($value) : null;
+        return !empty($value) ? new Age((int) $value) : null;
     }
 
     public function getName(): string

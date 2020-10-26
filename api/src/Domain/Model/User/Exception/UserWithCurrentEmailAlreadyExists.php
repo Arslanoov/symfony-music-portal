@@ -10,8 +10,8 @@ use Throwable;
 final class UserWithCurrentEmailAlreadyExists extends DomainException
 {
     public function __construct(
-        $message = "User with current email already exists.",
-        $code = 419,
+        string $message = "User with current email already exists.",
+        int $code = 419,
         Throwable $previous = null
     ) {
         parent::__construct($message, $code, $previous);

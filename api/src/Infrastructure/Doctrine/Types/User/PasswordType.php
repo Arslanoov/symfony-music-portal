@@ -19,7 +19,7 @@ class PasswordType extends StringType
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return !empty($value) ? new Password($value) : null;
+        return !empty($value) ? new Password((string) $value) : null;
     }
 
     public function getName(): string

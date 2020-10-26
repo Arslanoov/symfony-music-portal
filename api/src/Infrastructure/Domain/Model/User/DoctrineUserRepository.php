@@ -24,7 +24,9 @@ final class DoctrineUserRepository implements UserRepository
      */
     public function __construct(EntityManagerInterface $em)
     {
-        $this->repository = $em->getRepository(User::class);
+        /** @var EntityRepository $repository */
+        $repository = $em->getRepository(User::class);
+        $this->repository = $repository;
         $this->em = $em;
     }
 

@@ -30,7 +30,8 @@
         "symfony/browser-kit": "^5.1",
         "symfony/css-selector": "^5.1",
         "symfony/maker-bundle": "^1.22",
-        "symfony/phpunit-bridge": "^5.1"
+        "symfony/phpunit-bridge": "^5.1",
+        "vimeo/psalm": "^3.8"
     },
     "config": {
         "optimize-autoloader": true,
@@ -67,6 +68,7 @@
         "lint": "phplint",
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
+        "psalm": "psalm",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
