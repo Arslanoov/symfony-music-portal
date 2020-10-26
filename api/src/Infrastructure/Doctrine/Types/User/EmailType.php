@@ -19,7 +19,7 @@ class EmailType extends StringType
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return !empty($value) ? new Email($value) : null;
+        return !empty($value) ? new Email((string) $value) : null;
     }
 
     public function getName(): string
@@ -27,7 +27,7 @@ class EmailType extends StringType
         return self::NAME;
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform) : bool
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }

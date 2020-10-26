@@ -19,7 +19,7 @@ class LoginType extends StringType
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return !empty($value) ? new Login($value) : null;
+        return !empty($value) ? new Login((string) $value) : null;
     }
 
     public function getName(): string
@@ -27,7 +27,7 @@ class LoginType extends StringType
         return self::NAME;
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform) : bool
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }

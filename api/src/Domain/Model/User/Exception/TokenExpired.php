@@ -9,7 +9,7 @@ use Throwable;
 
 final class TokenExpired extends DomainException
 {
-    public function __construct($message = "Token is expired.", $code = 419, Throwable $previous = null)
+    public function __construct(string $message = "Token is expired.", int $code = 419, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

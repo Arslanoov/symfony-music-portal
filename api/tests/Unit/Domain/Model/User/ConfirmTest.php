@@ -31,11 +31,13 @@ class ConfirmTest extends TestCase
             $token = new ConfirmToken('secret', (new \DateTimeImmutable())->add(new \DateInterval('PT1H')))
         );
 
+        $this->assertTrue($user->hasSignUpConfirmToken());
         $this->assertTrue($user->isDraft());
         $this->assertFalse($user->isActive());
 
         $user->confirmSignUp($token);
 
+        $this->assertFalse($user->hasSignUpConfirmToken());
         $this->assertTrue($user->isActive());
         $this->assertFalse($user->isDraft());
         $this->assertNull($user->getSignUpConfirmToken());

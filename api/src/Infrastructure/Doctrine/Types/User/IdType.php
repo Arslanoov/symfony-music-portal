@@ -19,7 +19,7 @@ class IdType extends GuidType
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return !empty($value) ? new Id($value) : null;
+        return !empty($value) ? new Id((string) $value) : null;
     }
 
     public function getName(): string
@@ -27,7 +27,7 @@ class IdType extends GuidType
         return self::NAME;
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform) : bool
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }

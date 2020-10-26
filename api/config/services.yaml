@@ -17,6 +17,9 @@ services:
     Api\:
         resource: '../src/Api'
 
+    Console\:
+        resource: '../src/Console'
+
     Api\Action\:
         resource: '../src/Api/Action/'
         tags: ['controller.service_arguments']

@@ -9,8 +9,11 @@ use Throwable;
 
 final class UserAlreadyActivated extends DomainException
 {
-    public function __construct($message = "User is already activated.", $code = 419, Throwable $previous = null)
-    {
+    public function __construct(
+        string $message = "User is already activated.",
+        int $code = 419,
+        Throwable $previous = null
+    ) {
         parent::__construct($message, $code, $previous);
     }
 }

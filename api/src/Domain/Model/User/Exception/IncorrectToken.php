@@ -9,7 +9,7 @@ use Throwable;
 
 final class IncorrectToken extends DomainException
 {
-    public function __construct($message = "Incorrect token.", $code = 419, Throwable $previous = null)
+    public function __construct(string $message = "Incorrect token.", int $code = 419, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

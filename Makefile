@@ -1,6 +1,10 @@
 start: clean build up
+validate: check test
 test: test-unit test-functional
 clear-cache: api-clear-cache
+check: api-check
+
+api-check: api-lint api-cs api-analyze
 
 test-unit: api-unit-tests-run
 test-functional: api-load-fixtures api-functional-tests-run
@@ -44,3 +48,15 @@ api-generate-oauth-keys:
 
 api-clear-cache:
 	docker-compose run --rm api-php-cli php bin/console cache:clear
+
+api-lint:
+	docker-compose run --rm api-php-cli composer lint
+
+api-cs:
+	docker-compose run --rm api-php-cli composer cs-check
+
+api-analyze:
+	docker-compose run --rm api-php-cli composer psalm
+
+api-generate-doc:
+	docker-compose run --rm api-php-cli php bin/console api:doc:generate

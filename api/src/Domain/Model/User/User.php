@@ -128,11 +128,13 @@ class User implements AggregateRoot
 
     public function confirmSignUp(): void
     {
-        if ($this->isActive()) {
+        if ($this->isActive() || !$this->hasSignUpConfirmToken()) {
             throw new UserAlreadyActivated();
         }
 
-        if ($this->signUpConfirmToken->isExpiredTo(new DateTimeImmutable())) {
+        /** @var ConfirmToken $token */
+        $token = $this->signUpConfirmToken;
+        if ($token->isExpiredTo(new DateTimeImmutable())) {
             throw new TokenExpired();
         }
 
@@ -143,6 +145,11 @@ class User implements AggregateRoot
             $this->getLogin()->getValue(),
             $this->getEmail()->getValue()
         ));
+    }
+
+    public function hasSignUpConfirmToken(): bool
+    {
+        return $this->signUpConfirmToken !== null;
     }
 
     public function isActive(): bool
