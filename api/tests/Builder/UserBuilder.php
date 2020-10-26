@@ -12,6 +12,7 @@ use Domain\Model\User\Id;
 use Domain\Model\User\Login;
 use Domain\Model\User\Name;
 use Domain\Model\User\Password;
+use Domain\Model\User\Role;
 use Domain\Model\User\Status;
 use Domain\Model\User\User;
 use Ramsey\Uuid\Uuid;
@@ -26,6 +27,7 @@ final class UserBuilder
     public Age $age;
     public Password $password;
     public Status $status;
+    public Role $role;
     public ConfirmToken $signUpConfirmToken;
 
     public function __construct()
@@ -38,6 +40,7 @@ final class UserBuilder
         $this->age = new Age(32);
         $this->password = new Password('secret');
         $this->status = Status::draft();
+        $this->role = Role::user();
         $this->signUpConfirmToken = new ConfirmToken('secret', new DateTimeImmutable());
     }
 
@@ -97,6 +100,13 @@ final class UserBuilder
         return $builder;
     }
 
+    public function withRole(string $role): self
+    {
+        $builder = clone $this;
+        $builder->role = new Role($role);
+        return $builder;
+    }
+
     public function active(): self
     {
         $builder = clone $this;
@@ -129,6 +139,7 @@ final class UserBuilder
             $this->age,
             $this->password,
             $this->status,
+            $this->role,
             $this->signUpConfirmToken
         );
     }
