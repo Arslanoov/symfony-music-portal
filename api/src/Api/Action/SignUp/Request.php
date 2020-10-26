@@ -8,6 +8,7 @@ use Domain\Model\DomainException;
 use Domain\Model\User\UseCase\SignUp\Request\Command;
 use Domain\Model\User\UseCase\SignUp\Request\Handler;
 use Http\Response\ResponseFactory;
+use OpenApi\Annotations as OA;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +20,47 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
  * Class Request
  * @package Api\Action\SignUp
  * @Route("/api/sign-up", name="api.sign-up", methods={"POST"})
+ * @OA\Post(
+ *     path="/auth/sign-up",
+ *     tags={"Sign Up Request"},
+ *     @OA\RequestBody(
+ *         @OA\JsonContent(
+ *             type="object",
+ *             required={"first_name", "last_name", "login", "email", "age", "password"},
+ *             @OA\Property(property="first_name", type="string"),
+ *             @OA\Property(property="last_name", type="string"),
+ *             @OA\Property(property="login", type="string"),
+ *             @OA\Property(property="email", type="string"),
+ *             @OA\Property(property="age", type="integer"),
+ *             @OA\Property(property="password", type="string")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="Success response",
+ *             @OA\JsonContent(
+ *                 type="object",
+ *                 @OA\Property(property="email", type="string", nullable=false)
+ *             )
+*          )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Errors",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="message", type="string", nullable=true)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=419,
+ *         description="Domain errors",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="message", type="string", nullable=true)
+ *         )
+ *     )
+ * )
  */
 final class Request
 {

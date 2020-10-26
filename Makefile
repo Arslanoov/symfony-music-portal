@@ -57,3 +57,6 @@ api-cs:
 
 api-analyze:
 	docker-compose run --rm api-php-cli composer psalm
+
+api-generate-doc:
+	docker-compose run --rm api-php-cli php bin/console api:doc:generate
