@@ -29,9 +29,11 @@ final class Handler
 
     public function handle(Command $command): void
     {
-        if (!$user = $this->users->findBySignUpConfirmToken(
-            new ConfirmToken($command->token, new DateTimeImmutable())
-        )) {
+        if (
+            !$user = $this->users->findBySignUpConfirmToken(
+                new ConfirmToken($command->token, new DateTimeImmutable())
+            )
+        ) {
             throw new IncorrectToken();
         }
 

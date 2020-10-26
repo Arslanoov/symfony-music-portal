@@ -1,6 +1,7 @@
 start: clean build up
 test: test-unit test-functional
 clear-cache: api-clear-cache
+check: api-lint api-cs
 
 test-unit: api-unit-tests-run
 test-functional: api-load-fixtures api-functional-tests-run
@@ -47,3 +48,6 @@ api-clear-cache:
 
 api-lint:
 	docker-compose run --rm api-php-cli composer lint
+
+api-cs:
+	docker-compose run --rm api-php-cli composer cs-check
