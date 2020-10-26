@@ -44,3 +44,6 @@ api-generate-oauth-keys:
 
 api-clear-cache:
 	docker-compose run --rm api-php-cli php bin/console cache:clear
+
+api-lint:
+	docker-compose run --rm api-php-cli composer lint
