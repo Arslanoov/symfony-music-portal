@@ -11,4 +11,5 @@ final class AuthView
     public string $email;
     public string $password;
     public string $status;
+    public string $role;
 }
