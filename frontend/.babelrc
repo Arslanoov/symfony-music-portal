@@ -7,6 +7,7 @@
       "debug": true,
       "modules": false
     }],
-    "@babel/react"
+    "@babel/react",
+    "@babel/preset-typescript"
   ]
 }

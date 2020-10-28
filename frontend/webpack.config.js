@@ -5,16 +5,16 @@ const path = require('path');
 module.exports = {
     mode: "development",
 
-    entry: path.resolve(__dirname, 'src', 'index.jsx'),
+    entry: path.resolve(__dirname, 'src', 'index.tsx'),
 
     resolve: {
-        extensions: [".js", ".jsx", ".css", ".scss", ".sass"],
+        extensions: [".js", ".jsx", ".ts", ".tsx", ".css", ".scss", ".sass"],
     },
 
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(js|jsx|ts|tsx)$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader'
             },
