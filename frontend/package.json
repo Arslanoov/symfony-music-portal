@@ -2,16 +2,16 @@
   "name": "symfony-music-portal",
   "version": "1.0.0",
   "description": "",
+  "author": "",
+  "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "start": "webpack"
+    "build": "webpack"
   },
   "dependencies": {},
   "devDependencies": {
     "html-webpack-plugin": "^4.5.0",
     "webpack": "^5.3.0",
-    "webpack-cli": "^4.1.0"
-  },
-  "author": "",
-  "license": "ISC"
+    "webpack-dev-server": "^3.11.0"
+  }
 }

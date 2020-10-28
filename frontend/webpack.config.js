@@ -12,4 +12,9 @@ module.exports = {
             template: 'public/index.html'
         })
     ],
+
+    devServer: {
+        open: true,
+        historyApiFallback: true
+    }
 };
