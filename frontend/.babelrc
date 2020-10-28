@@ -1,0 +1,18 @@
+{
+  "presets": [[
+    "@babel/env",
+    {
+      "corejs": 3,
+      "useBuiltIns": "usage",
+      "debug": true,
+      "modules": false
+    }],
+    "@babel/react",
+    "@babel/preset-typescript"
+  ],
+  "env": {
+    "test": {
+      "plugins": ["@babel/plugin-transform-modules-commonjs"]
+    }
+  }
+}

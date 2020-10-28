@@ -40,7 +40,8 @@ final class DoctrineUserFetcher implements UserFetcher
                 'login',
                 'email',
                 'password',
-                'status'
+                'status',
+                'role'
             )
             ->from('user_users')
             ->where('email = :email')
@@ -63,7 +64,7 @@ final class DoctrineUserFetcher implements UserFetcher
                 'email',
                 'password',
                 'status',
-                'avatar'
+                'role'
             )
             ->from('user_users')
             ->where('login = :login')

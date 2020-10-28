@@ -15,19 +15,22 @@ class UserIdentity implements UserInterface, EquatableInterface
     private string $email;
     private string $password;
     private string $status;
+    private string $role;
 
     public function __construct(
         string $id,
         string $login,
         string $email,
         string $password,
-        string $status
+        string $status,
+        string $role
     ) {
         $this->id = $id;
         $this->login = $login;
         $this->email = $email;
         $this->password = $password;
         $this->status = $status;
+        $this->role = $role;
     }
 
     public function getId(): string
@@ -66,10 +69,17 @@ class UserIdentity implements UserInterface, EquatableInterface
         return $this->status === Status::STATUS_DRAFT;
     }
 
+    /**
+     * @return string
+     */
+    public function getRole(): string
+    {
+        return $this->role;
+    }
+
     public function getRoles(): array
     {
-        // TODO: add user role
-        return ['ROLE_USER'];
+        return [$this->role];
     }
 
     public function getSalt(): ?string
@@ -92,7 +102,8 @@ class UserIdentity implements UserInterface, EquatableInterface
             $this->login === $user->login and
             $this->email === $user->email and
             $this->password === $user->password and
-            $this->status === $user->status
+            $this->status === $user->status and
+            $this->role === $user->role
         ;
     }
 }

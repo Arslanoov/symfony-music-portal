@@ -43,6 +43,18 @@ services:
     ports:
       - "54321:5432"
 
+
+  frontend-nginx:
+    build:
+      context: ./frontend/docker
+      dockerfile: dev/nginx/Dockerfile
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "8081:80"
+    depends_on:
+      - api-php-fpm
+
 volumes:
   composer:
   api-postgres:
