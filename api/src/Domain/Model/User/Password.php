@@ -24,4 +24,9 @@ final class Password
     {
         return $this->value;
     }
+
+    public function isEqual(Password $password): bool
+    {
+        return $password->getValue() === $this->getValue();
+    }
 }

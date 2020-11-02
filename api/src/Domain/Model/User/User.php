@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Domain\Model\User;
 
+use Domain\Model\User\Event\UserPasswordChanged;
+use Domain\Model\User\Exception\PasswordResetNotRequested;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Domain\Model\AggregateRoot;
@@ -11,6 +13,7 @@ use Domain\Model\DomainException;
 use Domain\Model\EventsTrait;
 use Domain\Model\User\Event\UserConfirmed;
 use Domain\Model\User\Event\UserSignedUp;
+use Domain\Model\User\Exception\IncorrectToken;
 use Domain\Model\User\Exception\TokenExpired;
 use Domain\Model\User\Exception\UserAlreadyActivated;
 
@@ -78,6 +81,11 @@ class User implements AggregateRoot
      * @ORM\Embedded(columnPrefix="sign_up_confirm_token_", class="Domain\Model\User\ConfirmToken")
      */
     private ?ConfirmToken $signUpConfirmToken;
+    /**
+     * @var ConfirmToken|null
+     * @ORM\Embedded(columnPrefix="reset_password_confirm_token_", class="Domain\Model\User\ConfirmToken")
+     */
+    private ?ConfirmToken $resetPasswordConfirmToken = null;
 
     public function __construct(
         Id $id,
@@ -169,6 +177,55 @@ class User implements AggregateRoot
     public function isDraft(): bool
     {
         return $this->status->isDraft();
+    }
+
+    public function requestPasswordReset(ConfirmToken $resetPasswordConfirmToken): void
+    {
+        $this->resetPasswordConfirmToken = $resetPasswordConfirmToken;
+    }
+
+    public function hasRequestedPasswordReset(): bool
+    {
+        return $this->resetPasswordConfirmToken !== null;
+    }
+
+    public function confirmPasswordReset(ConfirmToken $token, Password $newPassword): void
+    {
+        // TODO: check already requested
+
+        if (!$this->hasRequestedPasswordReset()) {
+            throw new PasswordResetNotRequested();
+        }
+
+        /** @var ConfirmToken $currentToken */
+        $currentToken = $this->resetPasswordConfirmToken;
+
+        if (!$currentToken->isEqualTo($token)) {
+            throw new IncorrectToken();
+        }
+
+        if ($currentToken->isExpiredTo($token->getExpireDate())) {
+            throw new TokenExpired();
+        }
+
+        $this->eraseResetPasswordToken();
+        $this->changePassword($newPassword);
+
+        $this->recordEvent(new UserPasswordChanged(
+            $this->id->getValue(),
+            $this->login->getValue(),
+            $this->email->getValue()
+        ));
+    }
+
+    private function eraseResetPasswordToken(): void
+    {
+        $this->resetPasswordConfirmToken = null;
+    }
+
+    private function changePassword(Password $newPassword): void
+    {
+        $this->password = $newPassword;
     }
 
     private function activate(): void
@@ -266,5 +323,13 @@ class User implements AggregateRoot
     public function getSignUpConfirmToken(): ?ConfirmToken
     {
         return $this->signUpConfirmToken;
+    }
+
+    /**
+     * @return ConfirmToken|null
+     */
+    public function getResetPasswordConfirmToken(): ?ConfirmToken
+    {
+        return $this->resetPasswordConfirmToken;
     }
 }

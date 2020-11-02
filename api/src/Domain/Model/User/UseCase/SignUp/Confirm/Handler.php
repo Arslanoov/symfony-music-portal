@@ -8,7 +8,6 @@ use DateTimeImmutable;
 use Domain\Model\Flusher;
 use Domain\Model\User\ConfirmToken;
 use Domain\Model\User\Exception\IncorrectToken;
-use Domain\Model\User\Exception\UserNotFound;
 use Domain\Model\User\UserRepository;
 
 final class Handler
@@ -29,11 +28,9 @@ final class Handler
 
     public function handle(Command $command): void
     {
-        if (
-            !$user = $this->users->findBySignUpConfirmToken(
-                new ConfirmToken($command->token, new DateTimeImmutable())
-            )
-        ) {
+        if (!$user = $this->users->findBySignUpConfirmToken(
+            new ConfirmToken($command->token, new DateTimeImmutable())
+        )) {
             throw new IncorrectToken();
         }
 

@@ -29,6 +29,7 @@ final class UserBuilder
     public Status $status;
     public Role $role;
     public ConfirmToken $signUpConfirmToken;
+    public ?ConfirmToken $resetPasswordConfirmToken = null;
 
     public function __construct()
     {
@@ -42,6 +43,7 @@ final class UserBuilder
         $this->status = Status::draft();
         $this->role = Role::user();
         $this->signUpConfirmToken = new ConfirmToken('secret', new DateTimeImmutable());
+        $this->resetPasswordConfirmToken = null;
     }
 
     public function withId(string $id): self
@@ -128,9 +130,16 @@ final class UserBuilder
         return $builder;
     }
 
+    public function withResetPasswordConfirmToken(string $token, DateTimeImmutable $expireDate): self
+    {
+        $builder = clone $this;
+        $builder->resetPasswordConfirmToken = new ConfirmToken($token, $expireDate);
+        return $builder;
+    }
+
     public function build(): User
     {
-        return new User(
+        $user = new User(
             $this->id,
             $this->createdAt,
             $this->name,
@@ -142,5 +151,11 @@ final class UserBuilder
             $this->role,
             $this->signUpConfirmToken
         );
+
+        if ($this->resetPasswordConfirmToken) {
+            $user->requestPasswordReset($this->resetPasswordConfirmToken);
+        }
+
+        return $user;
     }
 }

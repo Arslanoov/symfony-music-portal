@@ -28,9 +28,6 @@ generate-migration:
 migrate:
 	docker-compose run --rm api-php-cli php bin/console do:mi:mi
 
-api-composer-install:
-    docker-compose run --rm api-php-cli composer install
-
 api-load-fixtures:
 	docker-compose run --rm api-php-cli php bin/console doctrine:fixtures:load --no-interaction
 
