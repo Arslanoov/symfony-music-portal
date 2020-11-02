@@ -1,4 +1,4 @@
-start: clean build up
+start: clean build up api-composer-install migrate
 validate: check test
 test: test-unit test-functional
 clear-cache: api-clear-cache
@@ -27,6 +27,9 @@ generate-migration:
 
 migrate:
 	docker-compose run --rm api-php-cli php bin/console do:mi:mi
+
+api-composer-install:
+    docker-compose run --rm api-php-cli composer install
 
 api-load-fixtures:
 	docker-compose run --rm api-php-cli php bin/console doctrine:fixtures:load --no-interaction
