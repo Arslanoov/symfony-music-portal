@@ -1,4 +1,4 @@
-start: clean build up
+start: clean build up api-composer-install migrate
 validate: check test
 test: test-unit test-functional
 clear-cache: api-clear-cache

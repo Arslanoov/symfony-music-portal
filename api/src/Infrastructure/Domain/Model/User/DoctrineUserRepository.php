@@ -78,6 +78,16 @@ final class DoctrineUserRepository implements UserRepository
         return $user;
     }
 
+    public function findByResetPasswordConfirmToken(ConfirmToken $confirmToken): ?User
+    {
+        /** @var User|null $user */
+        $user = $this->repository->findOneBy([
+            'resetPasswordConfirmToken.value' => $confirmToken->getToken()
+        ]);
+
+        return $user;
+    }
+
     public function add(User $user): void
     {
         $this->em->persist($user);

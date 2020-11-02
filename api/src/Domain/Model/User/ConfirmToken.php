@@ -53,6 +53,11 @@ final class ConfirmToken
         return $this->expireDate <= $to;
     }
 
+    public function isEqualTo(ConfirmToken $token): bool
+    {
+        return $token->getToken() === $this->getToken();
+    }
+
     public function isEmpty(): bool
     {
         return empty($this->value);
