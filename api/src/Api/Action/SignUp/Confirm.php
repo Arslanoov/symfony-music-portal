@@ -59,14 +59,6 @@ final class Confirm
     private Handler $handler;
     private ResponseFactory $response;
 
-    /**
-     * Confirm constructor.
-     * @param ValidatorInterface $validator
-     * @param SerializerInterface $serializer
-     * @param LoggerInterface $logger
-     * @param Handler $handler
-     * @param ResponseFactory $response
-     */
     public function __construct(
         ValidatorInterface $validator,
         SerializerInterface $serializer,
