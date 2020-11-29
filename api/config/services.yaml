@@ -56,3 +56,6 @@ services:
     Domain\Model\User\UserRepository:
         class: Infrastructure\Domain\Model\User\DoctrineUserRepository
 
+    Domain\Model\Music\Artist\ArtistRepository:
+        class: Infrastructure\Domain\Model\Music\DoctrineArtistRepository
+

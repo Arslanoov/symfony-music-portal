@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Api\Action\SignUp;
 
 use Domain\Model\DomainException;
-use Domain\Model\User\UseCase\SignUp\Request\Command;
-use Domain\Model\User\UseCase\SignUp\Request\Handler;
+use Domain\Model\Music\Artist\UseCase\Create\Command as ArtistCommand;
+use Domain\Model\Music\Artist\UseCase\Create\Handler as ArtistHandler;
+use Domain\Model\User\UseCase\SignUp\Request\Command as UserCommand;
+use Domain\Model\User\UseCase\SignUp\Request\Handler as UserHandler;
 use Http\Response\ResponseFactory;
 use OpenApi\Annotations as OA;
 use Psr\Log\LoggerInterface;
@@ -42,7 +44,7 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
  *                 type="object",
  *                 @OA\Property(property="email", type="string", nullable=false)
  *             )
-*          )
+ *         )
  *     ),
  *     @OA\Response(
  *         response=400,
@@ -67,28 +69,23 @@ final class Request
     private ValidatorInterface $validator;
     private SerializerInterface $serializer;
     private LoggerInterface $logger;
-    private Handler $handler;
+    private UserHandler $userHandler;
+    private ArtistHandler $artistHandler;
     private ResponseFactory $response;
 
-    /**
-     * Request constructor.
-     * @param ValidatorInterface $validator
-     * @param SerializerInterface $serializer
-     * @param LoggerInterface $logger
-     * @param Handler $handler
-     * @param ResponseFactory $response
-     */
     public function __construct(
         ValidatorInterface $validator,
         SerializerInterface $serializer,
         LoggerInterface $logger,
-        Handler $handler,
+        UserHandler $userHandler,
+        ArtistHandler $artistHandler,
         ResponseFactory $response
     ) {
         $this->validator = $validator;
         $this->serializer = $serializer;
         $this->logger = $logger;
-        $this->handler = $handler;
+        $this->userHandler = $userHandler;
+        $this->artistHandler = $artistHandler;
         $this->response = $response;
     }
 
@@ -107,9 +104,11 @@ final class Request
         $email = (string) ($body['email'] ?? '');
         $password = (string) ($body['password'] ?? '');
 
-        $signUpCommand = new Command($id, $firstName, $lastName, $login, $age, $email, $password);
+        $signUpCommand = new UserCommand($id, $firstName, $lastName, $login, $age, $email, $password);
+        $createArtistCommand = new ArtistCommand($id, $login);
 
         $violations = $this->validator->validate($signUpCommand);
+
         if (count($violations)) {
             $data = $this->serializer->serialize($violations, 'json');
             /** @var array $response */
@@ -118,7 +117,8 @@ final class Request
         }
 
         try {
-            $this->handler->handle($signUpCommand);
+            $this->userHandler->handle($signUpCommand);
+            $this->artistHandler->handle($createArtistCommand);
         } catch (DomainException $e) {
             $this->logger->debug($e->getMessage(), ['exception' => $e]);
             return $this->response->json([

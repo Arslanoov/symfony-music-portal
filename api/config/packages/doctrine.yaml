@@ -12,6 +12,8 @@ doctrine:
             user_user_password: 'Infrastructure\Doctrine\Types\User\PasswordType'
             user_user_status: 'Infrastructure\Doctrine\Types\User\StatusType'
             user_user_role: 'Infrastructure\Doctrine\Types\User\RoleType'
+            music_artist_id: 'Infrastructure\Doctrine\Types\Music\Artist\IdType'
+            music_artist_login: 'Infrastructure\Doctrine\Types\Music\Artist\LoginType'
         default_table_options:
             charset: utf8
             collate: -
@@ -27,3 +29,10 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Domain/Model/User'
                 prefix: 'Domain\Model\User'
                 alias: User
+
+            Music:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Domain/Model/Music'
+                prefix: 'Domain\Model\Music'
+                alias: Music
