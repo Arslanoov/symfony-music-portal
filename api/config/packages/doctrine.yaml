@@ -12,8 +12,15 @@ doctrine:
             user_user_password: 'Infrastructure\Doctrine\Types\User\PasswordType'
             user_user_status: 'Infrastructure\Doctrine\Types\User\StatusType'
             user_user_role: 'Infrastructure\Doctrine\Types\User\RoleType'
+
             music_artist_id: 'Infrastructure\Doctrine\Types\Music\Artist\IdType'
             music_artist_login: 'Infrastructure\Doctrine\Types\Music\Artist\LoginType'
+
+            music_song_id: 'Infrastructure\Doctrine\Types\Music\Song\IdType'
+            music_song_name: 'Infrastructure\Doctrine\Types\Music\Song\NameType'
+            music_song_file: 'Infrastructure\Doctrine\Types\Music\Song\FileType'
+            music_song_status: 'Infrastructure\Doctrine\Types\Music\Song\StatusType'
+            music_song_type: 'Infrastructure\Doctrine\Types\Music\Song\TypeType'
         default_table_options:
             charset: utf8
             collate: -
