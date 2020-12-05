@@ -59,3 +59,5 @@ services:
     Domain\Model\Music\Artist\ArtistRepository:
         class: Infrastructure\Domain\Model\Music\DoctrineArtistRepository
 
+    Domain\Model\Music\Song\SongRepository:
+        class: Infrastructure\Domain\Model\Music\DoctrineSongRepository
